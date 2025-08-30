@@ -1,18 +1,18 @@
 package com.example.fitness_tracker.domain;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "user_details")
 public class UserDetailsProfile {
     @Id
-    private Long id;
+    private Long id; // = app_user.id
 
-    @OneToOne
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_userdetails_user"))
     private User user;
 
     private LocalDate birthday;

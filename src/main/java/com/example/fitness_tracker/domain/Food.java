@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "foods")
+@Table(name = "food")
 public class Food {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,21 +14,15 @@ public class Food {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_food_category"))
     private FoodCategory category;
 
-    @Min(0)
-    private Integer kcal;
-
-    @Min(0)
-    private Double fat;
-
-    @Min(0)
-    private Double carbs;
-
-    @Min(0)
-    private Double protein;
+    @Min(0) @Column(nullable = false) private Integer kcal = 0;
+    @Min(0) @Column(nullable = false) private Double fat = 0.0;
+    @Min(0) @Column(nullable = false) private Double carbs = 0.0;
+    @Min(0) @Column(nullable = false) private Double protein = 0.0;
 
     @PrePersist @PreUpdate
     public void autoComputeKcal() {

@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface JournalRepository extends JpaRepository<Journal, Long> {
-    Optional<Journal> findByUsernameAndDate(String username, LocalDate date);
+    Optional<Journal> findByUserIdAndDate(Long userId, LocalDate date);
 }

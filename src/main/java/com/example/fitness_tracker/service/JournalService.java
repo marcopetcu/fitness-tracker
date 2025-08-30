@@ -11,24 +11,34 @@ public class JournalService {
     private final JournalRepository journalRepo;
     private final JournalFoodRepository jfRepo;
     private final FoodRepository foodRepo;
+    private final UserRepository userRepo;
 
-    public JournalService(JournalRepository journalRepo, JournalFoodRepository jfRepo, FoodRepository foodRepo) {
+    public JournalService(JournalRepository journalRepo,
+                          JournalFoodRepository jfRepo,
+                          FoodRepository foodRepo,
+                          UserRepository userRepo) {
         this.journalRepo = journalRepo;
         this.jfRepo = jfRepo;
         this.foodRepo = foodRepo;
+        this.userRepo = userRepo;
     }
 
-    public Journal find(String username, LocalDate date) {
-        return journalRepo.findByUsernameAndDate(username, date).orElse(null);
+    /** login = username sau email; intern lucrăm cu userId */
+    public Journal find(String login, LocalDate date) {
+        User u = userRepo.findByEmailOrUsername(login, login).orElse(null);
+        if (u == null) return null;
+        return journalRepo.findByUserIdAndDate(u.getId(), date).orElse(null);
     }
 
-    public void addFood(String username, LocalDate date, Long foodId, int grams) {
-        Journal j = journalRepo.findByUsernameAndDate(username, date).orElseGet(() -> {
+    public void addFood(String login, LocalDate date, Long foodId, int grams) {
+        User u = userRepo.findByEmailOrUsername(login, login).orElseThrow();
+        Journal j = journalRepo.findByUserIdAndDate(u.getId(), date).orElseGet(() -> {
             Journal created = new Journal();
-            created.setUsername(username);
+            created.setUser(u);
             created.setDate(date);
             return journalRepo.save(created);
         });
+
         Food f = foodRepo.findById(foodId).orElseThrow();
         JournalFood existing = jfRepo.findByJournalAndFood(j, f).orElse(null);
         if (existing != null) {
@@ -43,8 +53,10 @@ public class JournalService {
         }
     }
 
-    public void removeFood(String username, LocalDate date, Long foodId) {
-        Journal j = journalRepo.findByUsernameAndDate(username, date).orElse(null);
+    public void removeFood(String login, LocalDate date, Long foodId) {
+        User u = userRepo.findByEmailOrUsername(login, login).orElse(null);
+        if (u == null) return;
+        Journal j = journalRepo.findByUserIdAndDate(u.getId(), date).orElse(null);
         if (j == null) return;
         Food f = foodRepo.findById(foodId).orElse(null);
         if (f == null) return;
@@ -54,7 +66,7 @@ public class JournalService {
     public Totals totals(Journal j) {
         double kcal = 0, fat = 0, carbs = 0, protein = 0;
         if (j != null) {
-            for (JournalFood it : j.getFoods()) {
+            for (JournalFood it : j.getfood()) {
                 double factor = (it.getQuantityGrams() == null ? 0.0 : it.getQuantityGrams() / 100.0);
                 Food f = it.getFood();
                 kcal    += (f.getKcal()    == null ? 0 : f.getKcal())    * factor;

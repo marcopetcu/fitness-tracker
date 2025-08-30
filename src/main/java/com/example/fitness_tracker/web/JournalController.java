@@ -31,12 +31,12 @@ public class JournalController {
         String username = auth.getName();
         Journal journal = service.find(username, d);
         var totals = service.totals(journal);
-        List<Food> foods = foodRepo.findAll();
+        List<Food> food = foodRepo.findAll();
         model.addAttribute("date", d);
         model.addAttribute("prevDate", d.minusDays(1));
         model.addAttribute("nextDate", d.plusDays(1));
         model.addAttribute("journal", journal);
-        model.addAttribute("foods", foods);
+        model.addAttribute("food", food);
         model.addAttribute("totals", totals);
         return "journal/view";
     }

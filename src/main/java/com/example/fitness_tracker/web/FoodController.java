@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/foods")
+@RequestMapping("/food")
 public class FoodController {
     private final FoodService service;
     private final FoodCategoryRepository categories;
@@ -32,7 +32,7 @@ public class FoodController {
                        Model model) {
         model.addAttribute("page", service.list(q, pageable));
         model.addAttribute("q", q);
-        return "foods/list";
+        return "food/list";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -40,7 +40,7 @@ public class FoodController {
     public String createForm(Model model) {
         model.addAttribute("food", new Food());
         model.addAttribute("categories", allCategories());
-        return "foods/form";
+        return "food/form";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -48,7 +48,7 @@ public class FoodController {
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("food", service.get(id));
         model.addAttribute("categories", allCategories());
-        return "foods/form";
+        return "food/form";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -56,10 +56,10 @@ public class FoodController {
     public String create(@Valid @ModelAttribute("food") Food food, BindingResult br, Model model) {
         if (br.hasErrors()) {
             model.addAttribute("categories", allCategories());
-            return "foods/form";
+            return "food/form";
         }
         service.save(food);
-        return "redirect:/foods";
+        return "redirect:/food";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -67,18 +67,18 @@ public class FoodController {
     public String update(@PathVariable Long id, @Valid @ModelAttribute("food") Food food, BindingResult br, Model model) {
         if (br.hasErrors()) {
             model.addAttribute("categories", allCategories());
-            return "foods/form";
+            return "food/form";
         }
         food.setId(id);
         service.save(food);
-        return "redirect:/foods";
+        return "redirect:/food";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id) {
         service.delete(id);
-        return "redirect:/foods";
+        return "redirect:/food";
     }
 
     private List<FoodCategory> allCategories() {

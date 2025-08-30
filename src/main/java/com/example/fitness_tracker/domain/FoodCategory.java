@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "food_categories", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(name = "food_category", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class FoodCategory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

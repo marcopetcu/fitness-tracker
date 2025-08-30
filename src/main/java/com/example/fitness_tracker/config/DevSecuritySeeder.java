@@ -4,52 +4,61 @@ import com.example.fitness_tracker.domain.Role;
 import com.example.fitness_tracker.domain.User;
 import com.example.fitness_tracker.repo.RoleRepository;
 import com.example.fitness_tracker.repo.UserRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
+import org.springframework.boot.CommandLineRunner;
 
 @Component
-@Profile("dev")
+@Profile({"dev","test"})
 public class DevSecuritySeeder implements CommandLineRunner {
 
-    private final RoleRepository roleRepo;
     private final UserRepository userRepo;
-    private final PasswordEncoder encoder;
+    private final RoleRepository roleRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public DevSecuritySeeder(RoleRepository roleRepo, UserRepository userRepo, PasswordEncoder encoder) {
-        this.roleRepo = roleRepo;
+    public DevSecuritySeeder(UserRepository userRepo,
+                             RoleRepository roleRepo,
+                             PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
-        this.encoder = encoder;
+        this.roleRepo = roleRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) {
-        Role adminRole = roleRepo.findByName("ROLE_ADMIN").orElseGet(() -> {
-            Role r = new Role(); r.setName("ROLE_ADMIN"); return roleRepo.save(r);
+        // asigur rolurile
+        Role adminRole = roleRepo.findByName("ADMIN").orElseGet(() -> {
+            Role r = new Role();
+            r.setName("ADMIN");
+            return roleRepo.save(r);
         });
-        Role userRole = roleRepo.findByName("ROLE_USER").orElseGet(() -> {
-            Role r = new Role(); r.setName("ROLE_USER"); return roleRepo.save(r);
+        Role userRole = roleRepo.findByName("USER").orElseGet(() -> {
+            Role r = new Role();
+            r.setName("USER");
+            return roleRepo.save(r);
         });
 
-        if (userRepo.findByEmail("admin@example.com").isEmpty()) {
+        // admin (UN rol)
+        userRepo.findByEmail("admin@example.com").orElseGet(() -> {
             User admin = new User();
+            admin.setUsername("admin");
             admin.setEmail("admin@example.com");
-            admin.setPassword(encoder.encode("admin"));
+            admin.setPassword(passwordEncoder.encode("admin"));
             admin.setEnabled(true);
-            admin.setRoles(Set.of(adminRole, userRole));
-            userRepo.save(admin);
-        }
+            admin.setRole(adminRole); // <-- un singur rol
+            return userRepo.save(admin);
+        });
 
-        if (userRepo.findByEmail("user@example.com").isEmpty()) {
-            User user = new User();
-            user.setEmail("user@example.com");
-            user.setPassword(encoder.encode("user"));
-            user.setEnabled(true);
-            user.setRoles(Set.of(userRole));
-            userRepo.save(user);
-        }
+        // user obișnuit
+        userRepo.findByEmail("user@example.com").orElseGet(() -> {
+            User u = new User();
+            u.setUsername("user");
+            u.setEmail("user@example.com");
+            u.setPassword(passwordEncoder.encode("user"));
+            u.setEnabled(true);
+            u.setRole(userRole); // <-- un singur rol
+            return userRepo.save(u);
+        });
     }
 }

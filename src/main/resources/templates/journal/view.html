@@ -20,22 +20,22 @@
   <input type="hidden" name="date" th:value="${date}">
   <select name="foodId" required>
     <option value="" disabled selected>-- select food --</option>
-    <option th:each="f : ${foods}" th:value="${f.id}" th:text="${f.name + ' (' + f.kcal + ' kcal/100g)'}"></option>
+    <option th:each="f : ${food}" th:value="${f.id}" th:text="${f.name + ' (' + f.kcal + ' kcal/100g)'}"></option>
   </select>
   <input type="number" name="grams" min="1" step="1" placeholder="grams" required>
   <button type="submit">Add</button>
 </form>
 
-<div th:if="${journal == null or #lists.isEmpty(journal.foods)}" style="margin-top:16px">
+<div th:if="${journal == null or #lists.isEmpty(journal.food)}" style="margin-top:16px">
   <em>No entries for this date.</em>
 </div>
 
-<table th:if="${journal != null and !#lists.isEmpty(journal.foods)}" border="1" cellpadding="6" cellspacing="0" style="margin-top:16px">
+<table th:if="${journal != null and !#lists.isEmpty(journal.food)}" border="1" cellpadding="6" cellspacing="0" style="margin-top:16px">
   <thead>
   <tr><th>Food</th><th>Grams</th><th>Kcal</th><th>Fat</th><th>Carbs</th><th>Protein</th><th>Actions</th></tr>
   </thead>
   <tbody>
-  <tr th:each="it : ${journal.foods}">
+  <tr th:each="it : ${journal.food}">
     <td th:text="${it.food.name}">Food</td>
     <td th:text="${it.quantityGrams}">0</td>
     <td th:text="${T(java.lang.Math).round((it.food.kcal == null ? 0 : it.food.kcal) * (it.quantityGrams / 100.0))}">0</td>
