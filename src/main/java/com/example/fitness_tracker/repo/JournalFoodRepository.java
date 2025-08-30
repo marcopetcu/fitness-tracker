@@ -1,0 +1,10 @@
+package com.example.fitness_tracker.repo;
+
+import com.example.fitness_tracker.domain.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface JournalFoodRepository extends JpaRepository<JournalFood, JournalFoodId> {
+    Optional<JournalFood> findByJournalAndFood(Journal journal, Food food);
+}

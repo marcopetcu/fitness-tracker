@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head><meta charset="UTF-8"><title>Foods</title></head>
+<body>
+<h1>Foods</h1>
+
+<form th:action="@{/foods}" method="get">
+  <input type="text" name="q" th:value="${q}" placeholder="Search by name">
+  <button type="submit">Search</button>
+  <a th:href="@{/foods/new}" sec:authorize="hasRole('ADMIN')">+ New Food</a>
+</form>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Kcal/100g</th>
+    <th>Fat (g)</th>
+    <th>Carbs (g)</th>
+    <th>Protein (g)</th>
+    <th sec:authorize="hasRole('ADMIN')">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="f : ${page.content}">
+    <td th:text="${f.name}">Name</td>
+    <td th:text="${f.kcal}">0</td>
+    <td th:text="${f.fat}">0</td>
+    <td th:text="${f.carbs}">0</td>
+    <td th:text="${f.protein}">0</td>
+    <td sec:authorize="hasRole('ADMIN')">
+      <a th:href="@{'/foods/' + ${f.id} + '/edit'}">Edit</a>
+      <form th:action="@{'/foods/' + ${f.id} + '/delete'}" method="post" style="display:inline">
+        <button type="submit" onclick="return confirm('Delete?')">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div>
+  <span th:text="'Page ' + ${page.number + 1} + ' / ' + ${page.totalPages}">Page</span>
+  <div>
+    <a th:if="${!page.first}" th:href="@{|/foods?page=${page.number - 1}&size=${page.size}&q=${q}|}">« Prev</a>
+    <a th:if="${!page.last}" th:href="@{|/foods?page=${page.number + 1}&size=${page.size}&q=${q}|}">Next »</a>
+  </div>
+</div>
+
+<p><a th:href="@{/}">Home</a></p>
+</body>
+</html>

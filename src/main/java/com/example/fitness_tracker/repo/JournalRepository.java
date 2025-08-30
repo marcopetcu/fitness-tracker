@@ -1,0 +1,11 @@
+package com.example.fitness_tracker.repo;
+
+import com.example.fitness_tracker.domain.Journal;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+public interface JournalRepository extends JpaRepository<Journal, Long> {
+    Optional<Journal> findByUsernameAndDate(String username, LocalDate date);
+}
