@@ -1,0 +1,12 @@
+.home {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.home__logo {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--accent)
+}

@@ -1,22 +1,88 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Login</title></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Fitness Tracker</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+  <link rel="stylesheet" th:href="@{/css/login.css}" href="/css/login.css"/>
+</head>
 <body>
-<h1>Login</h1>
-<form th:action="@{/login}" method="post">
-  <div>
-    <label>Email</label>
-    <input type="text" name="username">
-  </div>
-  <div>
-    <label>Password</label>
-    <input type="password" name="password">
-  </div>
-  <div>
-    <button type="submit">Sign in</button>
-  </div>
-  <p th:if="${param.error}">Invalid credentials</p>
-  <p th:if="${param.logout}">Logged out</p>
-</form>
+
+<!-- Meniu comun -->
+<header class="topbar">
+  <nav class="nav">
+    <a class="nav__brand" th:href="@{/}">
+      <svg class="icon icon--brand" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2a7 7 0 0 1 7 7v1h1a2 2 0 0 1 2 2v8h-6v-6H8v6H2v-8a2 2 0 0 1 2-2h1V9a7 7 0 0 1 7-7Z"/>
+      </svg>
+      MyApp
+    </a>
+  </nav>
+</header>
+
+<main class="container login-page">
+  <section class="card login-card">
+    <header class="login-header">
+      <h1>Login</h1>
+      <p class="subtitle">Welcome back to your fitness journey</p>
+    </header>
+
+    <!-- Mesaje -->
+    <div th:if="${param.error}" class="message message--error">
+      <span class="message__icon">⚠️</span>
+      <span>Invalid credentials. Please try again.</span>
+    </div>
+
+    <div th:if="${param.logout}" class="message message--success">
+      <span class="message__icon">✅</span>
+      <span>You have been logged out successfully.</span>
+    </div>
+
+    <form th:action="@{/login}" method="post" class="form-grid">
+      <!-- CSRF (dacă e activ în Spring Security) -->
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+      <label for="username">Email Address</label>
+      <input
+              id="username"
+              type="email"
+              name="username"
+              placeholder="Enter your email"
+              required />
+
+      <label for="password">Password</label>
+      <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              required />
+
+      <div class="form-actions">
+        <button type="submit" class="btn submit-btn">
+          Sign In
+        </button>
+      </div>
+    </form>
+
+    <div class="login-links">
+      <a class="link" th:href="@{/forgot-password}">Forgot your password?</a>
+      <span class="divider">•</span>
+      <a class="link" th:href="@{/register}">Don't have an account? Sign up</a>
+    </div>
+  </section>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitBtn = document.querySelector('.submit-btn');
+    form.addEventListener('submit', function() {
+      submitBtn.innerHTML = '<span class="loading"></span>Signing In...';
+      submitBtn.disabled = true;
+    });
+  });
+</script>
 </body>
 </html>

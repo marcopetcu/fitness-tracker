@@ -1,0 +1,68 @@
+.search-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center
+}
+
+.search-bar .input {
+    flex: 1
+}
+
+
+/* Form */
+/* Folosește variabilele + utilitare din style.css (nav, .container, .card, .btn etc.) */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 10px 16px;
+    align-items: center;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-grid input[type="text"],
+.form-grid input[type="number"],
+.form-grid select {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0b1222;
+    color: var(--text);
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+}
+
+.form-subtitle {
+    grid-column: 1 / -1;
+    margin: 6px 0;
+    font-size: 15px;
+    color: var(--muted);
+}
+
+.error {
+    color: #ef9a9a;
+    font-size: 12px;
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

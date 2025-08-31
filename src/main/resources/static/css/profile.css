@@ -1,0 +1,54 @@
+/* Folosește variabilele și utilitarele din style.css */
+
+.muted{ color: var(--muted); }
+
+.section-title{
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color: #f3f4f6;
+}
+
+/* Grid simplu pentru formular */
+.form-grid{
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 10px 16px;
+    align-items: center;
+}
+
+.form-grid input[type="text"],
+.form-grid input[type="email"],
+.form-grid input[type="password"],
+.form-grid input[type="number"],
+.form-grid input[type="date"]{
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0b1222;
+    color: var(--text);
+}
+
+.form-grid input:focus{
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+}
+
+.form-subtitle{
+    grid-column: 1 / -1;
+    margin: 8px 0;
+    font-size: 16px;
+    color: var(--muted);
+}
+
+.form-actions{
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+@media (max-width: 640px){
+    .form-grid{
+        grid-template-columns: 1fr;
+    }
+}
