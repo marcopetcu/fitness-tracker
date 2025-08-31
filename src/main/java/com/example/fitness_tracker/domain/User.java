@@ -3,7 +3,10 @@ package com.example.fitness_tracker.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -40,6 +43,24 @@ public class User {
             foreignKey = @ForeignKey(name = "fk_user_role"))
     private Role role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Workout> workouts = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_favorite_exercise",
+        joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_fav_user")),
+        inverseJoinColumns = @JoinColumn(name = "exercise_id", foreignKey = @ForeignKey(name = "fk_fav_exercise"))
+    )
+    private Set<Exercise> favoriteExercises = new HashSet<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private UserDetailsProfile details;
+
+    public UserDetailsProfile getDetails() { return details; }
+    public void setDetails(UserDetailsProfile details) { this.details = details; }
+
+    // getters/setters standard
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getUsername() { return username; }
@@ -54,4 +75,18 @@ public class User {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public Set<Workout> getWorkouts() { return workouts; }
+    public void setWorkouts(Set<Workout> workouts) { this.workouts = workouts; }
+
+    public Set<Exercise> getFavoriteExercises() { return favoriteExercises; }
+    public void setFavoriteExercises(Set<Exercise> favoriteExercises) { this.favoriteExercises = favoriteExercises; }
+
+    // metode ajutătoare (opțional)
+    public void addFavoriteExercise(Exercise e) {
+        this.favoriteExercises.add(e);
+    }
+    public void removeFavoriteExercise(Exercise e) {
+        this.favoriteExercises.remove(e);
+    }
 }

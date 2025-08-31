@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Exercises</title></head>
+<body>
+<h1>Exercises</h1>
+
+<form method="get" th:action="@{/exercises}">
+  <input type="text" name="q" th:value="${q}" placeholder="Search by name"/>
+  <button type="submit">Search</button>
+</form>
+
+<a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/exercises/new}">New exercise</a>
+
+<table>
+  <thead><tr><th>Name</th><th>Muscle group</th><th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Actions</th></tr></thead>
+  <tbody>
+  <tr th:each="ex : ${page.content}">
+    <td th:text="${ex.name}">Bench Press</td>
+    <td th:text="${ex.muscleGroup.name}">Chest</td>
+    <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+      <a th:href="@{|/exercises/${ex.id}/edit|}">Edit</a>
+      <form th:action="@{|/exercises/${ex.id}/delete|}" method="post" style="display:inline">
+        <button type="submit" onclick="return confirm('Delete?')">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div>
+  <span th:text="${page.number + 1}">1</span> / <span th:text="${page.totalPages}">1</span>
+  <a th:if="${page.hasPrevious()}" th:href="@{|/exercises?q=${q}&page=${page.number - 1}|}">Prev</a>
+  <a th:if="${page.hasNext()}" th:href="@{|/exercises?q=${q}&page=${page.number + 1}|}">Next</a>
+</div>
+
+</body>
+</html>

@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/h2-console/**").permitAll()
                 .requestMatchers("/food/**").authenticated()
                 .requestMatchers("/journal/**").authenticated()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll())

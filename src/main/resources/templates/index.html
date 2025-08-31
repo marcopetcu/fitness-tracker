@@ -10,8 +10,22 @@
 
   <nav>
     <div>
-      <a th:href="@{/journal}">Journal</a><br>
-      <a th:href="@{/food}">Food</a>
+      <a href="/journal">Journal</a>
+    </div>
+    <div>
+      <a href="/food">Food</a>
+    </div>
+    <div>
+      <a href="/workout">Workout</a> <!-- new -->
+    </div>
+    <div>
+      <a href="/exercises">Exercises</a> <!-- admin can add/edit; users can view -->
+    </div>
+    <div>
+      <a href="/profile">Profile</a>
+    </div>
+    <div sec:authorize="hasRole('ADMIN')">
+      <a href="/admin/muscle-groups">Muscle Groups</a>
     </div>
 
     <div style="margin-top: 20px;">

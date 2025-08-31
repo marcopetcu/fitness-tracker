@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title th:text="${exerciseId != null} ? 'Edit Exercise' : 'New Exercise'">Exercise</title></head>
+<body>
+<h1 th:text="${exerciseId != null} ? 'Edit Exercise' : 'New Exercise'">Exercise</h1>
+<form th:action="${exerciseId != null} ? @{'/exercises/' + ${exerciseId}} : @{/exercises}" th:object="${form}" method="post">
+  <label>Name</label>
+  <input type="text" th:field="*{name}" required/>
+
+  <label>Muscle group</label>
+  <select th:field="*{muscleGroupId}">
+    <option th:each="mg : ${muscleGroups}" th:value="${mg.id}" th:text="${mg.name}">Group</option>
+  </select>
+
+  <button type="submit">Save</button>
+</form>
+</body>
+</html>

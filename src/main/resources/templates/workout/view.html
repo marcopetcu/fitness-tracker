@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Workout</title></head>
+<body>
+<h1>Workout</h1>
+
+<form th:action="@{/workout}" method="get">
+  <input type="date" name="date" th:value="${date}"/>
+  <button type="submit">Go</button>
+  <a th:href="@{|/workout?date=${prevDate}|}">Prev</a>
+  <a th:href="@{|/workout?date=${nextDate}|}">Next</a>
+</form>
+
+<h2 th:text="${#temporals.format(date, 'yyyy-MM-dd')}">Date</h2>
+
+<table>
+  <thead>
+    <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th><th>Actions</th></tr>
+  </thead>
+  <tbody>
+  <tr th:each="line : ${workout.exercises}">
+    <td th:text="${line.exercise.name}">Bench Press</td>
+    <td>
+      <form th:action="@{/workout/update}" method="post">
+        <input type="hidden" name="date" th:value="${date}"/>
+        <input type="hidden" name="exerciseId" th:value="${line.exercise.id}"/>
+        <input type="number" name="sets" min="1" th:value="${line.sets}" />
+        <input type="number" name="reps" min="1" th:value="${line.reps}" />
+        <input type="number" step="0.5" name="weight" min="0" th:value="${line.weight}" />
+        <button type="submit">Save</button>
+      </form>
+    </td>
+    <td></td><td></td>
+    <td>
+      <form th:action="@{/workout/remove}" method="post">
+        <input type="hidden" name="date" th:value="${date}"/>
+        <input type="hidden" name="exerciseId" th:value="${line.exercise.id}"/>
+        <button type="submit">Remove</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<hr/>
+
+<h3>Add exercise</h3>
+<form th:action="@{/workout/add}" th:object="${addForm}" method="post">
+  <input type="hidden" name="date" th:value="${date}"/>
+  <select th:field="*{exerciseId}">
+    <option th:each="ex : ${exercises.content}" th:value="${ex.id}" th:text="${ex.name}">name</option>
+  </select>
+  <input type="number" th:field="*{sets}" placeholder="sets (optional)" min="1"/>
+  <input type="number" th:field="*{reps}" placeholder="reps (optional)" min="1"/>
+  <input type="number" step="0.5" th:field="*{weight}" placeholder="weight (optional)" min="0"/>
+  <button type="submit">Add</button>
+</form>
+
+<form th:action="@{/workout}" method="get">
+  <input type="hidden" name="date" th:value="${date}"/>
+  <input type="text" name="q" th:value="${q}" placeholder="Search exercises..."/>
+  <button type="submit">Search</button>
+</form>
+
+<div>
+  <span th:text="${exercises.number + 1}">1</span> / <span th:text="${exercises.totalPages}">1</span>
+  <a th:if="${exercises.hasPrevious()}" th:href="@{|/workout?date=${date}&q=${q}&page=${exercises.number - 1}|}">Prev</a>
+  <a th:if="${exercises.hasNext()}" th:href="@{|/workout?date=${date}&q=${q}&page=${exercises.number + 1}|}">Next</a>
+</div>
+
+</body>
+</html>

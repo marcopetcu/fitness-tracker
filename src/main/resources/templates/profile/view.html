@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Profile</title></head>
+<body>
+<h1>Profile</h1>
+
+<p>Account created at: <strong th:text="${#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}">2025-01-01</strong></p>
+
+<h2>Account</h2>
+<form th:action="@{/profile}" th:object="${form}" method="post">
+  <label>Username</label>
+  <input type="text" th:field="*{username}" required/>
+
+  <label>Email</label>
+  <input type="email" th:field="*{email}" required/>
+
+  <h3>Details</h3>
+  <label>Birthday</label>
+  <input type="date" th:field="*{birthday}"/>
+
+  <label>Height (cm)</label>
+  <input type="number" step="0.1" th:field="*{height}"/>
+
+  <label>Weight (kg)</label>
+  <input type="number" step="0.1" th:field="*{weight}"/>
+
+  <button type="submit">Save profile</button>
+</form>
+
+<h2>Change password</h2>
+<form th:action="@{/profile/password}" th:object="${passwordForm}" method="post">
+  <label>Current password</label>
+  <input type="password" th:field="*{currentPassword}" required/>
+  <label>New password</label>
+  <input type="password" th:field="*{newPassword}" required/>
+  <label>Confirm new password</label>
+  <input type="password" th:field="*{confirmNewPassword}" required/>
+  <button type="submit">Change password</button>
+</form>
+
+</body>
+</html>

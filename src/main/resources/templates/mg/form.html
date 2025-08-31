@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="${id != null} ? 'Edit muscle group' : 'New muscle group'">MG</title>
+  <style>
+    .toolbar { display:flex; gap:.5rem; align-items:center; margin:1rem 0; }
+    .btn { padding:.5rem .8rem; border:1px solid #ccc; border-radius:8px; text-decoration:none; }
+  </style>
+</head>
+<body>
+<h1 th:text="${id != null} ? 'Edit muscle group' : 'New muscle group'">Title</h1>
+
+<div class="toolbar">
+  <a class="btn" th:href="@{/}">Home</a>
+  <a class="btn" th:href="@{/admin/muscle-groups}">Back to list</a>
+</div>
+
+<form th:action="${id != null} ? @{'/admin/muscle-groups/' + ${id}} : @{/admin/muscle-groups}"
+      th:object="${form}" method="post">
+  <label>Name</label>
+  <input type="text" th:field="*{name}" required/>
+  <button type="submit">Save</button>
+</form>
+</body>
+</html>
