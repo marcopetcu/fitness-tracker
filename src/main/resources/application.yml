@@ -25,7 +25,10 @@ spring:
       path: /h2-console
   thymeleaf:
     cache: false
-
+logging:
+  level:
+    com.example.fitness_tracker.service: DEBUG
+    org.springframework.security: INFO
 ---
 spring:
   config:
@@ -39,6 +42,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
+logging:
+  level:
+    com.example.fitness_tracker.service: DEBUG
 
 ---
 spring:
@@ -55,3 +61,6 @@ spring:
       ddl-auto: update
     properties:
       '[hibernate.dialect]': org.hibernate.dialect.PostgreSQLDialect
+logging:
+  level:
+    com.example.fitness_tracker.service: INFO

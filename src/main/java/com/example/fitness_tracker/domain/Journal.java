@@ -30,6 +30,6 @@ public class Journal {
     public void setUser(User user) { this.user = user; }
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
-    public Set<JournalFood> getfood() { return food; }
-    public void setfood(Set<JournalFood> food) { this.food = food; }
+    public Set<JournalFood> getFood() { return food; }
+    public void setFood(Set<JournalFood> food) { this.food = food; }
 }

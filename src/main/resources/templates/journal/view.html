@@ -46,6 +46,7 @@
       <form th:action="@{/journal/remove}" method="post" style="display:inline">
         <input type="hidden" name="date" th:value="${date}">
         <input type="hidden" name="foodId" th:value="${it.food.id}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button type="submit">Remove</button>
       </form>
     </td>

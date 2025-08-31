@@ -53,22 +53,37 @@ public class FoodController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public String create(@Valid @ModelAttribute("food") Food food, BindingResult br, Model model) {
+    public String create(@Valid @ModelAttribute("food") Food food,
+                         BindingResult br,
+                         Model model) {
+        // asigură-te că avem o categorie selectată (important când <select> leagă *{category.id})
+        if (food.getCategory() == null || food.getCategory().getId() == null) {
+            br.rejectValue("category", "NotNull.food.category", "Category is required");
+        }
         if (br.hasErrors()) {
             model.addAttribute("categories", allCategories());
             return "food/form";
         }
+
         service.save(food);
         return "redirect:/food";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id, @Valid @ModelAttribute("food") Food food, BindingResult br, Model model) {
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute("food") Food food,
+                         BindingResult br,
+                         Model model) {
+        // idem: verificare categorie
+        if (food.getCategory() == null || food.getCategory().getId() == null) {
+            br.rejectValue("category", "NotNull.food.category", "Category is required");
+        }
         if (br.hasErrors()) {
             model.addAttribute("categories", allCategories());
             return "food/form";
         }
+
         food.setId(id);
         service.save(food);
         return "redirect:/food";

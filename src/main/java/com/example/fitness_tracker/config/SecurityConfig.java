@@ -34,11 +34,22 @@ public class SecurityConfig {
     @Bean
     public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager mgr = new JdbcUserDetailsManager(dataSource);
-        mgr.setUsersByUsernameQuery("select email as username, password, enabled from users where email=?");
-        mgr.setAuthoritiesByUsernameQuery(
-                "select u.email as username, r.name as authority " +
-                "from users u join user_roles ur on u.id=ur.user_id join roles r on r.id=ur.role_id " +
-                "where u.email=?");
+
+        // autentificare pe email (1 utilizator = 1 rol)
+        mgr.setUsersByUsernameQuery("""
+            select email as username, password, enabled
+            from app_user
+            where email=?
+        """);
+
+        // mapare autorități: ROLE_<nume_rol>
+        mgr.setAuthoritiesByUsernameQuery("""
+            select u.email as username, concat('ROLE_', r.name) as authority
+            from app_user u
+            join role r on r.id = u.role_id
+            where u.email=?
+        """);
+
         return mgr;
     }
 

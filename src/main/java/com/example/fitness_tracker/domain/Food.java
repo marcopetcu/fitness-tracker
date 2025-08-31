@@ -3,6 +3,7 @@ package com.example.fitness_tracker.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "food")
@@ -17,6 +18,7 @@ public class Food {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_food_category"))
+    @NotNull(message = "Category is required")
     private FoodCategory category;
 
     @Min(0) @Column(nullable = false) private Integer kcal = 0;
