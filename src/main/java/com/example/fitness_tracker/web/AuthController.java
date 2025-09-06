@@ -42,7 +42,7 @@ public class AuthController {
                         HttpServletRequest request) throws ServletException {
 
         if (userRepo.findByEmail(form.getEmail()).isPresent()) {
-            return "redirect:/register?error=email_taken";
+            return "redirect:/register?email_taken";
         }
 
         var user = new User();

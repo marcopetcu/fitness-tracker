@@ -60,5 +60,8 @@ public class DevSecuritySeeder implements CommandLineRunner {
             u.setRole(userRole); // <-- un singur rol
             return userRepo.save(u);
         });
+
+
+        // TODO: Add Muscle groups, exercises, foods
     }
 }

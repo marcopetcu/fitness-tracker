@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .requestMatchers("/login", "/register", "/css/**", "/js/**", "/images/**", "/h2-console/**").permitAll()
                 .requestMatchers("/food/**").authenticated()
                 .requestMatchers("/journal/**").authenticated()
+                .requestMatchers("/workouts/**").authenticated()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )

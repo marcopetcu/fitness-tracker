@@ -35,8 +35,8 @@
               >Journal</a
             >
           </li>
-          <li>
-            <a class="nav__link" th:href="@{/food}"
+          <li sec:authorize="hasRole('ADMIN')">
+            <a class="nav__link nav__link--active" th:href="@{/food}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24">
                   <path
@@ -55,7 +55,7 @@
               >Workouts</a
             >
           </li>
-          <li>
+          <li sec:authorize="hasRole('ADMIN')">
             <a class="nav__link" th:href="@{/exercises}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24">
@@ -65,7 +65,7 @@
               >Exercises</a
             >
           </li>
-          <li>
+          <li sec:authorize="hasRole('ADMIN')">
             <a class="nav__link" th:href="@{/admin/muscle-groups}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z" /></svg></span
@@ -73,7 +73,7 @@
             >
           </li>
           <li>
-            <a class="nav__link nav__link--active" th:href="@{/profile}"
+            <a class="nav__link" th:href="@{/profile}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24">
                   <path
@@ -108,7 +108,13 @@
           <input id="username" type="text" th:field="*{username}" required />
 
           <label for="email">Email</label>
-          <input id="email" type="email" th:field="*{email}" required />
+          <input
+            id="email"
+            type="email"
+            th:field="*{email}"
+            required
+            disabled
+          />
 
           <h3 class="form-subtitle">Details</h3>
 

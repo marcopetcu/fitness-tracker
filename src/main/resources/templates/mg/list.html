@@ -1,50 +1,130 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ro">
-<head>
-  <meta charset="UTF-8"><title>Muscle groups</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
-  <link rel="stylesheet" th:href="@{/css/muscle-groups.css}" href="/css/muscle-groups.css">
-</head>
-<body>
-<header class="topbar">
-  <nav class="nav">
-    <a class="nav__brand" th:href="@{/}">MyApp</a>
-    <ul class="nav__list">
-      <li><a class="nav__link" th:href="@{/}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9-2 0v8h-5v-5H10v5H5v-8H3z"/></svg></span>Home</a></li>
-      <li><a class="nav__link" th:href="@{/journal}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h11a2 2 0 012 2v14l-3-2-3 2-3-2-3 2V6a2 2 0 012-2z"/></svg></span>Journal</a></li>
-      <li><a class="nav__link" th:href="@{/food}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M7 2h10l1 5H6l1-5zm-1 7h12l-1.5 13H7.5L6 9z"/></svg></span>Foods</a></li>
-      <li><a class="nav__link" th:href="@{/workouts}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 6h2v12H5V6zm12 0h2v12h-2V6zM9 9h6v6H9V9z"/></svg></span>Workouts</a></li>
-      <li><a class="nav__link" th:href="@{/exercises}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M7 10h10v4H7zM3 11h3v2H3zm15 0h3v2h-3z"/></svg></span>Exercises</a></li>
-      <li><a class="nav__link nav__link--active" th:href="@{/admin/muscle-groups}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z"/></svg></span>Muscle Groups</a></li>
-      <li><a class="nav__link" th:href="@{/profile}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9v-1a7 7 0 0114 0v1H5z"/></svg></span>Account</a></li>
-    </ul>
-  </nav>
-</header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Muscle groups</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      th:href="@{/css/muscle-groups.css}"
+      href="/css/muscle-groups.css"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="nav">
+        <a class="nav__brand" th:href="@{/}">MyApp</a>
+        <ul class="nav__list">
+          <li>
+            <a class="nav__link" th:href="@{/}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 12l9-9 9 9-2 0v8h-5v-5H10v5H5v-8H3z"
+                  /></svg></span
+              >Home</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/journal}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M6 4h11a2 2 0 012 2v14l-3-2-3 2-3-2-3 2V6a2 2 0 012-2z"
+                  /></svg></span
+              >Journal</a
+            >
+          </li>
+          <li sec:authorize="hasRole('ADMIN')">
+            <a class="nav__link nav__link--active" th:href="@{/food}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M7 2h10l1 5H6l1-5zm-1 7h12l-1.5 13H7.5L6 9z"
+                  /></svg></span
+              >Foods</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/workouts}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M5 6h2v12H5V6zm12 0h2v12h-2V6zM9 9h6v6H9V9z"
+                  /></svg></span
+              >Workouts</a
+            >
+          </li>
+          <li sec:authorize="hasRole('ADMIN')">
+            <a class="nav__link" th:href="@{/exercises}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M7 10h10v4H7zM3 11h3v2H3zm15 0h3v2h-3z"
+                  /></svg></span
+              >Exercises</a
+            >
+          </li>
+          <li sec:authorize="hasRole('ADMIN')">
+            <a class="nav__link" th:href="@{/admin/muscle-groups}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z" /></svg></span
+              >Muscle Groups</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/profile}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9v-1a7 7 0 0114 0v1H5z"
+                  /></svg></span
+              >Account</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-<main class="container">
-  <h1 class="page-title">Muscle groups</h1>
+    <main class="container">
+      <h1 class="page-title">Muscle groups</h1>
 
-  <div class="card toolbar">
-    <a class="btn" th:href="@{/}">Home</a>
-    <a class="btn" th:href="@{/admin/muscle-groups/new}">New group</a>
-  </div>
+      <div class="card toolbar">
+        <a class="btn" th:href="@{/}">Home</a>
+        <a class="btn" th:href="@{/admin/muscle-groups/new}">New group</a>
+      </div>
 
-  <section class="card">
-    <table class="table">
-      <thead><tr><th>Name</th><th>Actions</th></tr></thead>
-      <tbody>
-      <tr th:each="g : ${items}">
-        <td th:text="${g.name}">Chest</td>
-        <td>
-          <a th:href="@{|/admin/muscle-groups/${g.id}/edit|}">Edit</a>
-          <form th:action="@{|/admin/muscle-groups/${g.id}/delete|}" method="post" class="inline-form">
-            <button class="btn btn--danger" type="submit" onclick="return confirm('Delete this group?')">Delete</button>
-          </form>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </section>
-</main>
-</body>
+      <section class="card">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="g : ${items}">
+              <td th:text="${g.name}">Chest</td>
+              <td>
+                <a th:href="@{|/admin/muscle-groups/${g.id}/edit|}">Edit</a>
+                <form
+                  th:action="@{|/admin/muscle-groups/${g.id}/delete|}"
+                  method="post"
+                  class="inline-form"
+                >
+                  <button
+                    class="btn btn--danger"
+                    type="submit"
+                    onclick="return confirm('Delete this group?')"
+                  >
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
 </html>
