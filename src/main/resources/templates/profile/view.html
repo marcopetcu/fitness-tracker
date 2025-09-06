@@ -1,79 +1,175 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ro">
-<head>
-  <meta charset="UTF-8" />
-  <title>Profile</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css" />
-  <link rel="stylesheet" th:href="@{/css/profile.css}" href="/css/profile.css" />
-</head>
-<body>
-<header class="topbar">
-  <nav class="nav">
-    <a class="nav__brand" th:href="@{/}">MyApp</a>
-    <ul class="nav__list">
-      <li><a class="nav__link" th:href="@{/}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9-2 0v8h-5v-5H10v5H5v-8H3z"/></svg></span>Home</a></li>
-      <li><a class="nav__link" th:href="@{/journal}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 4h11a2 2 0 012 2v14l-3-2-3 2-3-2-3 2V6a2 2 0 012-2z"/></svg></span>Journal</a></li>
-      <li><a class="nav__link" th:href="@{/food}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M7 2h10l1 5H6l1-5zm-1 7h12l-1.5 13H7.5L6 9z"/></svg></span>Foods</a></li>
-      <li><a class="nav__link" th:href="@{/workouts}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 6h2v12H5V6zm12 0h2v12h-2V6zM9 9h6v6H9V9z"/></svg></span>Workouts</a></li>
-      <li><a class="nav__link" th:href="@{/exercises}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M7 10h10v4H7zM3 11h3v2H3zm15 0h3v2h-3z"/></svg></span>Exercises</a></li>
-      <li><a class="nav__link" th:href="@{/admin/muscle-groups}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z"/></svg></span>Muscle Groups</a></li>
-      <li><a class="nav__link nav__link--active" th:href="@{/profile}"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9v-1a7 7 0 0114 0v1H5z"/></svg></span>Account</a></li>
-    </ul>
-  </nav>
-</header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      th:href="@{/css/profile.css}"
+      href="/css/profile.css"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="nav">
+        <a class="nav__brand" th:href="@{/}">MyApp</a>
+        <ul class="nav__list">
+          <li>
+            <a class="nav__link" th:href="@{/}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 12l9-9 9 9-2 0v8h-5v-5H10v5H5v-8H3z"
+                  /></svg></span
+              >Home</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/journal}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M6 4h11a2 2 0 012 2v14l-3-2-3 2-3-2-3 2V6a2 2 0 012-2z"
+                  /></svg></span
+              >Journal</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/food}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M7 2h10l1 5H6l1-5zm-1 7h12l-1.5 13H7.5L6 9z"
+                  /></svg></span
+              >Foods</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/workouts}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M5 6h2v12H5V6zm12 0h2v12h-2V6zM9 9h6v6H9V9z"
+                  /></svg></span
+              >Workouts</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/exercises}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M7 10h10v4H7zM3 11h3v2H3zm15 0h3v2h-3z"
+                  /></svg></span
+              >Exercises</a
+            >
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/admin/muscle-groups}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z" /></svg></span
+              >Muscle Groups</a
+            >
+          </li>
+          <li>
+            <a class="nav__link nav__link--active" th:href="@{/profile}"
+              ><span class="icon"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9v-1a7 7 0 0114 0v1H5z"
+                  /></svg></span
+              >Account</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-<main class="container">
-  <h1>Profile</h1>
+    <main class="container">
+      <h1>Profile</h1>
 
-  <p class="muted">
-    Account created at:
-    <strong th:text="${#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}">2025-01-01</strong>
-  </p>
+      <p class="muted">
+        Account created at:
+        <strong th:text="${#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}"
+          >2025-01-01</strong
+        >
+      </p>
 
-  <section class="card">
-    <h2 class="section-title">Account</h2>
-    <form class="form-grid" th:action="@{/profile}" th:object="${form}" method="post">
-      <label for="username">Username</label>
-      <input id="username" type="text" th:field="*{username}" required/>
+      <section class="card">
+        <h2 class="section-title">Account</h2>
+        <form
+          class="form-grid"
+          th:action="@{/profile}"
+          th:object="${form}"
+          method="post"
+        >
+          <label for="username">Username</label>
+          <input id="username" type="text" th:field="*{username}" required />
 
-      <label for="email">Email</label>
-      <input id="email" type="email" th:field="*{email}" required/>
+          <label for="email">Email</label>
+          <input id="email" type="email" th:field="*{email}" required />
 
-      <h3 class="form-subtitle">Details</h3>
+          <h3 class="form-subtitle">Details</h3>
 
-      <label for="birthday">Birthday</label>
-      <input id="birthday" type="date" th:field="*{birthday}"/>
+          <label for="birthday">Birthday</label>
+          <input id="birthday" type="date" th:field="*{birthday}" />
 
-      <label for="height">Height (cm)</label>
-      <input id="height" type="number" step="0.1" th:field="*{height}"/>
+          <label for="height">Height (cm)</label>
+          <input id="height" type="number" step="0.1" th:field="*{height}" />
 
-      <label for="weight">Weight (kg)</label>
-      <input id="weight" type="number" step="0.1" th:field="*{weight}"/>
+          <label for="weight">Weight (kg)</label>
+          <input id="weight" type="number" step="0.1" th:field="*{weight}" />
 
-      <div class="form-actions">
-        <button class="btn" type="submit">Save profile</button>
-      </div>
-    </form>
-  </section>
+          <div class="form-actions">
+            <button class="btn" type="submit">Save profile</button>
+          </div>
+        </form>
+      </section>
 
-  <section class="card">
-    <h2 class="section-title">Change password</h2>
-    <form class="form-grid" th:action="@{/profile/password}" th:object="${passwordForm}" method="post">
-      <label for="currentPassword">Current password</label>
-      <input id="currentPassword" type="password" th:field="*{currentPassword}" required/>
+      <section class="card">
+        <h2 class="section-title">Change password</h2>
+        <form
+          class="form-grid"
+          th:action="@{/profile/password}"
+          th:object="${passwordForm}"
+          method="post"
+        >
+          <label for="currentPassword">Current password</label>
+          <input
+            id="currentPassword"
+            type="password"
+            th:field="*{currentPassword}"
+            required
+          />
 
-      <label for="newPassword">New password</label>
-      <input id="newPassword" type="password" th:field="*{newPassword}" required/>
+          <label for="newPassword">New password</label>
+          <input
+            id="newPassword"
+            type="password"
+            th:field="*{newPassword}"
+            required
+          />
 
-      <label for="confirmNewPassword">Confirm new password</label>
-      <input id="confirmNewPassword" type="password" th:field="*{confirmNewPassword}" required/>
+          <label for="confirmNewPassword">Confirm new password</label>
+          <input
+            id="confirmNewPassword"
+            type="password"
+            th:field="*{confirmNewPassword}"
+            required
+          />
 
-      <div class="form-actions">
-        <button class="btn" type="submit">Change password</button>
-      </div>
-    </form>
-  </section>
-</main>
+          <div class="form-actions">
+            <button class="btn" type="submit">Change password</button>
+          </div>
+        </form>
+      </section>
 
-</body>
+      <section class="card">
+        <form th:action="@{/logout}" method="post">
+          <button class="btn" type="submit">Logout</button>
+        </form>
+      </section>
+    </main>
+  </body>
 </html>

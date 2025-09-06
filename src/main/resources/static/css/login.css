@@ -40,8 +40,7 @@
     margin-top: 8px;
 }
 
-.form-grid input[type="email"],
-.form-grid input[type="password"]{
+.form-grid input{
     padding:8px 10px;
     border-radius:10px;
     border:1px solid var(--border);
@@ -80,4 +79,9 @@
 
 @media (max-width: 640px){
     .form-grid{ grid-template-columns: 1fr; }
+}
+
+.checkbox-row{
+    grid-column: span 2;
+
 }
