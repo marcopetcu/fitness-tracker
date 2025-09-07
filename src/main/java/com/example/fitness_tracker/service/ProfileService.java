@@ -24,18 +24,37 @@ public class ProfileService {
     }
 
     public void updateProfile(User user, ProfileForm form) {
-        user.setUsername(form.getUsername());
-        user.setEmail(form.getEmail());
-        userRepo.save(user);
+        boolean dirtyUser = false;
 
-        UserDetailsProfile details = user.getDetails();
-        if (details == null) {
-            details = new UserDetailsProfile();
-            details.setUser(user);
+        if (form.getUsername() != null
+                && !form.getUsername().isBlank()
+                && !form.getUsername().equals(user.getUsername())) {
+            user.setUsername(form.getUsername());
+            dirtyUser = true;
         }
+
+        if (form.getEmail() != null
+                && !form.getEmail().isBlank()
+                && !form.getEmail().equalsIgnoreCase(user.getEmail())) {
+            user.setEmail(form.getEmail());
+            dirtyUser = true;
+        }
+
+        if (dirtyUser) {
+            userRepo.save(user);
+        }
+
+        UserDetailsProfile details = detailsRepo.findById(user.getId())
+            .orElseGet(() -> {
+                UserDetailsProfile d = new UserDetailsProfile();
+                d.setUser(user);
+                return d;
+            });
+
         details.setBirthday(form.getBirthday());
         details.setHeight(form.getHeight());
         details.setWeight(form.getWeight());
+
         detailsRepo.save(details);
     }
 
