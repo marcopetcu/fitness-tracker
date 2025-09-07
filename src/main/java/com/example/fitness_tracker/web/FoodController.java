@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -32,6 +33,17 @@ public class FoodController {
                        Model model) {
         model.addAttribute("page", service.list(q, pageable));
         model.addAttribute("q", q);
+
+        String currentSort = "name";
+        String currentDir = "asc";
+        if (pageable.getSort().isSorted()) {
+            Sort.Order o = pageable.getSort().iterator().next();
+            currentSort = o.getProperty();
+            currentDir = o.getDirection().isAscending() ? "asc" : "desc";
+        }
+        model.addAttribute("sort", currentSort);
+        model.addAttribute("dir", currentDir);
+
         return "food/list";
     }
 
@@ -56,7 +68,6 @@ public class FoodController {
     public String create(@Valid @ModelAttribute("food") Food food,
                          BindingResult br,
                          Model model) {
-        // asigură-te că avem o categorie selectată (important când <select> leagă *{category.id})
         if (food.getCategory() == null || food.getCategory().getId() == null) {
             br.rejectValue("category", "NotNull.food.category", "Category is required");
         }
@@ -75,7 +86,6 @@ public class FoodController {
                          @Valid @ModelAttribute("food") Food food,
                          BindingResult br,
                          Model model) {
-        // idem: verificare categorie
         if (food.getCategory() == null || food.getCategory().getId() == null) {
             br.rejectValue("category", "NotNull.food.category", "Category is required");
         }

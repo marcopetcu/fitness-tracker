@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <title>Foods</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css" />
-    <link rel="stylesheet" th:href="@{/css/foods.css}" href="/css/foods.css" />
+    <link rel="stylesheet" th:href="@{/css/food.css}" href="/css/food.css" />
   </head>
   <body>
     <header class="topbar">
@@ -89,7 +89,6 @@
     <main class="container">
       <h1 class="page-title">Foods</h1>
 
-      <!-- Search + New -->
       <form th:action="@{/food}" method="get" class="card search-bar">
         <input
           class="input"
@@ -98,6 +97,7 @@
           th:value="${q}"
           placeholder="Search by name"
         />
+        <input type="hidden" name="sort" th:value="${sort + ',' + dir}" />
         <button class="btn" type="submit">Search</button>
         <a
           class="btn"
@@ -108,16 +108,75 @@
         >
       </form>
 
-      <!-- Table -->
       <section class="card">
         <table class="table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Kcal/100g</th>
-              <th>Fat (g)</th>
-              <th>Carbs (g)</th>
-              <th>Protein (g)</th>
+              <th>
+                <a
+                  th:href="@{/food(
+                      page=${page.number},
+                      size=${page.size},
+                      q=${q},
+                      sort=${'name' + ',' + ((sort=='name' and dir=='asc') ? 'desc' : 'asc')}
+                    )}"
+                >
+                  Name
+                  <span th:if="${sort=='name'}" th:text="${dir=='asc' ? '▲' : '▼'}"></span>
+                </a>
+              </th>
+              <th>
+                <a
+                  th:href="@{/food(
+                      page=${page.number},
+                      size=${page.size},
+                      q=${q},
+                      sort=${'kcal' + ',' + ((sort=='kcal' and dir=='asc') ? 'desc' : 'asc')}
+                    )}"
+                >
+                  Kcal/100g
+                  <span th:if="${sort=='kcal'}" th:text="${dir=='asc' ? '▲' : '▼'}"></span>
+                </a>
+              </th>
+              <th>
+                <a
+                  th:href="@{/food(
+                      page=${page.number},
+                      size=${page.size},
+                      q=${q},
+                      sort=${'fat' + ',' + ((sort=='fat' and dir=='asc') ? 'desc' : 'asc')}
+                    )}"
+                >
+                  Fat (g)
+                  <span th:if="${sort=='fat'}" th:text="${dir=='asc' ? '▲' : '▼'}"></span>
+                </a>
+              </th>
+              <th>
+                <a
+                  th:href="@{/food(
+                      page=${page.number},
+                      size=${page.size},
+                      q=${q},
+                      sort=${'carbs' + ',' + ((sort=='carbs' and dir=='asc') ? 'desc' : 'asc')}
+                    )}"
+                >
+                  Carbs (g)
+                  <span th:if="${sort=='carbs'}" th:text="${dir=='asc' ? '▲' : '▼'}"></span>
+                </a>
+              </th>
+              <th>
+                <a
+                  th:href="@{/food(
+                      page=${page.number},
+                      size=${page.size},
+                      q=${q},
+                      sort=${'protein' + ',' + ((sort=='protein' and dir=='asc') ? 'desc' : 'asc')}
+                    )}"
+                >
+                  Protein (g)
+                  <span th:if="${sort=='protein'}" th:text="${dir=='asc' ? '▲' : '▼'}"></span>
+                </a>
+              </th>
               <th sec:authorize="hasRole('ADMIN')">Actions</th>
             </tr>
           </thead>
@@ -154,7 +213,6 @@
         </table>
       </section>
 
-      <!-- Pagination -->
       <div class="pagination">
         <span
           th:text="'Page ' + ${page.number + 1} + ' / ' + ${page.totalPages}"
@@ -163,12 +221,22 @@
         <div>
           <a
             th:if="${!page.first}"
-            th:href="@{|/food?page=${page.number - 1}&size=${page.size}&q=${q}|}"
+            th:href="@{/food(
+              page=${page.number - 1},
+              size=${page.size},
+              q=${q},
+              sort=${sort + ',' + dir}
+            )}"
             >« Prev</a
           >
           <a
             th:if="${!page.last}"
-            th:href="@{|/food?page=${page.number + 1}&size=${page.size}&q=${q}|}"
+            th:href="@{/food(
+              page=${page.number + 1},
+              size=${page.size},
+              q=${q},
+              sort=${sort + ',' + dir}
+            )}"
             >Next »</a
           >
         </div>
