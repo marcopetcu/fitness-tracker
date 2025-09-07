@@ -1,0 +1,99 @@
+.date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.date-selector__date {
+    font-size: 16px;
+    letter-spacing: .2px;
+}
+
+.date-jump {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.date-jump input[type="date"] {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0b1222;
+    color: var(--text);
+}
+
+.date-jump input[type="date"]:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px
+}
+
+.add-exercise {
+    display: flex;
+    gap: 8px;
+    align-items: end;
+}
+
+.add-exercise select,
+.add-exercise input[type="number"]{
+    width: auto;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0b1222;
+    color: var(--text);
+}
+
+.add-exercise select:focus,
+.add-exercise input[type="number"]:focus{
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+}
+
+.add-exercise .btn{
+    white-space: nowrap;
+}
+
+.add-exercise label {
+    padding-bottom:8px;
+    padding-inline:5px;
+}
+
+.add-exercise-form-group{
+    display:flex;
+    flex-direction:column;
+    padding-bottom:8px;
+}
+
+.add-exercise ::placeholder{ color: var(--muted); }
+
+@media (max-width: 640px){
+    .add-exercise{
+        grid-template-columns: 1fr;
+    }
+}
+
+.col-actions {
+    width: 1%;
+    white-space: nowrap
+}
+
+.actions .inline-form {
+    display: inline
+}
+
+.empty-state {
+    color: var(--muted)
+}
+
+@media (max-width: 640px) {
+    .add-exercise {
+        grid-template-columns: 1fr;
+    }
+
+    .date-selector {
+        gap: 8px
+    }
+}
