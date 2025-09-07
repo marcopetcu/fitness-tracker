@@ -26,7 +26,7 @@
             >
           </li>
           <li>
-            <a class="nav__link" th:href="@{/journal}"
+            <a class="nav__link nav__link--active" th:href="@{/journal}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24">
                   <path
@@ -36,7 +36,7 @@
             >
           </li>
           <li sec:authorize="hasRole('ADMIN')">
-            <a class="nav__link nav__link--active" th:href="@{/food}"
+            <a class="nav__link" th:href="@{/food}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24">
                   <path
@@ -176,26 +176,11 @@
             <tr th:each="it : ${journal.food}">
               <td th:text="${it.food.name}">Food</td>
               <td th:text="${it.quantityGrams}">0</td>
-              <td
-                th:text="${T(java.lang.Math).round((it.food.kcal == null ? 0 : it.food.kcal) * (it.quantityGrams / 100.0))}"
-              >
-                0
-              </td>
-              <td
-                th:text="${((it.food.fat == null ? 0 : it.food.fat) * it.quantityGrams) / 100.0}"
-              >
-                0
-              </td>
-              <td
-                th:text="${((it.food.carbs == null ? 0 : it.food.carbs) * it.quantityGrams) / 100.0}"
-              >
-                0
-              </td>
-              <td
-                th:text="${((it.food.protein == null ? 0 : it.food.protein) * it.quantityGrams) / 100.0}"
-              >
-                0
-              </td>
+              <td th:text="${it.totalKcal}">0</td>
+              <td th:text="${it.totalFat}">0</td>
+              <td th:text="${it.totalCarbs}">0</td>
+              <td th:text="${it.totalProtein}">0</td>
+
               <td class="actions">
                 <form
                   th:action="@{/journal/remove}"

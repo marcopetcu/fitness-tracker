@@ -38,7 +38,7 @@
             >
           </li>
           <li sec:authorize="hasRole('ADMIN')">
-            <a class="nav__link nav__link--active" th:href="@{/food}"
+            <a class="nav__link" th:href="@{/food}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24">
                   <path
@@ -68,7 +68,9 @@
             >
           </li>
           <li sec:authorize="hasRole('ADMIN')">
-            <a class="nav__link" th:href="@{/admin/muscle-groups}"
+            <a
+              class="nav__link nav__link--active"
+              th:href="@{/admin/muscle-groups}"
               ><span class="icon"
                 ><svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z" /></svg></span
               >Muscle Groups</a

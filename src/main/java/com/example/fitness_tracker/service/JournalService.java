@@ -100,9 +100,13 @@ public class JournalService {
                 double factor = (it.getQuantityGrams() == null ? 0.0 : it.getQuantityGrams() / 100.0);
                 Food f = it.getFood();
                 kcal    += (f.getKcal()    == null ? 0 : f.getKcal())    * factor;
+                kcal     = Math.round(kcal * 100.0) / 100.0;
                 fat     += (f.getFat()     == null ? 0 : f.getFat())     * factor;
+                fat      = Math.round(fat * 100.0) / 100.0;
                 carbs   += (f.getCarbs()   == null ? 0 : f.getCarbs())   * factor;
+                carbs    = Math.round(carbs * 100.0) / 100.0;
                 protein += (f.getProtein() == null ? 0 : f.getProtein()) * factor;
+                protein  = Math.round(protein * 100.0) / 100.0;
             }
         }
         Totals t = new Totals(kcal, fat, carbs, protein);
