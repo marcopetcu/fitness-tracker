@@ -139,6 +139,7 @@
               <td th:text="${it.weight}">0</td>
               <td class="actions">
                 <form th:action="@{/workout/remove}" method="post" class="inline-form">
+                  <input type="hidden" name="date" th:value="${date}" />
                   <input type="hidden" name="workoutId" th:value="${workout.id}" />
                   <input type="hidden" name="exerciseId" th:value="${it.exercise.id}" />
                   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
