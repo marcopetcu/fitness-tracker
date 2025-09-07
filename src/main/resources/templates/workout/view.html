@@ -1,140 +1,154 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
-    <title>Workout</title>
+    <meta charset="UTF-8" />
+    <title>Workouts</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/workout.css}" href="/css/workout.css" />
   </head>
   <body>
-    <h1>Workout</h1>
+    <header class="topbar">
+      <nav class="nav">
+        <a class="nav__brand" th:href="@{/}">MyApp</a>
+        <ul class="nav__list">
+          <li>
+            <a class="nav__link" th:href="@{/}">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9-2 0v8h-5v-5H10v5H5v-8H3z"/></svg>
+              </span>
+              Home
+            </a>
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/journal}">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><path d="M6 4h11a2 2 0 012 2v14l-3-2-3 2-3-2-3 2V6a2 2 0 012-2z"/></svg>
+              </span>
+              Journal
+            </a>
+          </li>
+          <li sec:authorize="hasRole('ADMIN')">
+            <a class="nav__link" th:href="@{/food}">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><path d="M7 2h10l1 5H6l1-5zm-1 7h12l-1.5 13H7.5L6 9z"/></svg>
+              </span>
+              Foods
+            </a>
+          </li>
+          <li>
+            <a class="nav__link nav__link--active" th:href="@{/workout}">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><path d="M5 6h2v12H5V6zm12 0h2v12h-2V6zM9 9h6v6H9V9z"/></svg>
+              </span>
+              Workouts
+            </a>
+          </li>
+          <li sec:authorize="hasRole('ADMIN')">
+            <a class="nav__link" th:href="@{/exercises}">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><path d="M7 10h10v4H7zM3 11h3v2H3zm15 0h3v2h-3z"/></svg>
+              </span>
+              Exercises
+            </a>
+          </li>
+          <li sec:authorize="hasRole('ADMIN')">
+            <a class="nav__link" th:href="@{/admin/muscle-groups}">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z"/></svg>
+              </span>
+              Muscle Groups
+            </a>
+          </li>
+          <li>
+            <a class="nav__link" th:href="@{/profile}">
+              <span class="icon">
+                <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9v-1a7 7 0 0114 0v1H5z"/></svg>
+              </span>
+              Account
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-    <form th:action="@{/workout}" method="get">
-      <input type="date" name="date" th:value="${date}" />
-      <button type="submit">Go</button>
-      <a th:href="@{|/workout?date=${prevDate}|}">Prev</a>
-      <a th:href="@{|/workout?date=${nextDate}|}">Next</a>
-    </form>
+    <main class="container">
+      <h1>Workouts</h1>
 
-    <h2 th:text="${#temporals.format(date, 'yyyy-MM-dd')}">Date</h2>
+      <section class="card">
+        <div class="date-selector">
+          <a class="btn btn--ghost" th:href="@{|/workout?date=${prevDate}|}">← Previous</a>
+          <strong class="date-selector__date" th:text="${#temporals.format(date, 'yyyy-MM-dd')}">date</strong>
+          <a class="btn btn--ghost" th:href="@{|/workout?date=${nextDate}|}">Next →</a>
+        </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Exercise</th>
-          <th>Sets</th>
-          <th>Reps</th>
-          <th>Weight</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="line : ${workout.exercises}">
-          <td th:text="${line.exercise.name}">Bench Press</td>
-          <td>
-            <form th:action="@{/workout/update}" method="post">
-              <input type="hidden" name="date" th:value="${date}" />
-              <input
-                type="hidden"
-                name="exerciseId"
-                th:value="${line.exercise.id}"
-              />
-              <input
-                type="number"
-                name="sets"
-                min="1"
-                th:value="${line.sets}"
-              />
-              <input
-                type="number"
-                name="reps"
-                min="1"
-                th:value="${line.reps}"
-              />
-              <input
-                type="number"
-                step="0.5"
-                name="weight"
-                min="0"
-                th:value="${line.weight}"
-              />
-              <button type="submit">Save</button>
-            </form>
-          </td>
-          <td></td>
-          <td></td>
-          <td>
-            <form th:action="@{/workout/remove}" method="post">
-              <input type="hidden" name="date" th:value="${date}" />
-              <input
-                type="hidden"
-                name="exerciseId"
-                th:value="${line.exercise.id}"
-              />
-              <button type="submit">Remove</button>
-            </form>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <form class="date-jump" th:action="@{/workout}" method="get">
+          <label for="date" class="sr-only">Choose date</label>
+          <input id="date" type="date" name="date" th:value="${date}" />
+          <button class="btn" type="submit">Go</button>
+        </form>
+      </section>
 
-    <hr />
+      <section class="card">
+        <h2 class="section-title">Add exercise</h2>
+        <form class="add-exercise" th:action="@{/workout/add}" method="post" th:object="${addForm}">
+          <input type="hidden" name="date" th:value="${date}" />
+          <div class="add-exercise-form-group">
+            <label for="exerciseId" class="sr-only">Select exercise</label>
+            <select id="exerciseId" th:field="*{exerciseId}" required>
+              <option value="" disabled selected>-- select exercise --</option>
+              <option th:each="e : ${exercises}" th:value="${e.id}" th:text="${e.name}"></option>
+            </select>
+          </div>
+          <div class="add-exercise-form-group">
+            <label for="sets" class="sr-only">Sets</label>
+            <input id="sets" type="number" th:field="*{sets}" min="1" step="1" placeholder="sets" required />
+          </div>
+          <div class="add-exercise-form-group">
+            <label for="reps" class="sr-only">Reps</label>
+            <input id="reps" type="number" th:field="*{reps}" min="1" step="1" placeholder="reps" required />
+          </div>
+          <div class="add-exercise-form-group">
+            <label for="weight" class="sr-only">Kg</label>
+            <input id="weight" type="number" th:field="*{weight}" min="0" step="0.5" placeholder="kg" />
+          </div>
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <button class="btn" type="submit">Add</button>
+        </form>
+      </section>
 
-    <h3>Add exercise</h3>
-    <form th:action="@{/workout/add}" th:object="${addForm}" method="post">
-      <input type="hidden" name="date" th:value="${date}" />
-      <select th:field="*{exerciseId}">
-        <option
-          th:each="ex : ${exercises.content}"
-          th:value="${ex.id}"
-          th:text="${ex.name}"
-        >
-          name
-        </option>
-      </select>
-      <input
-        type="number"
-        th:field="*{sets}"
-        placeholder="sets (optional)"
-        min="1"
-      />
-      <input
-        type="number"
-        th:field="*{reps}"
-        placeholder="reps (optional)"
-        min="1"
-      />
-      <input
-        type="number"
-        step="0.5"
-        th:field="*{weight}"
-        placeholder="weight (optional)"
-        min="0"
-      />
-      <button type="submit">Add</button>
-    </form>
+      <section class="card">
+        <div th:if="${workout == null or #lists.isEmpty(workout.exercises)}" class="empty-state">
+          <em>No exercises for this date.</em>
+        </div>
 
-    <form th:action="@{/workout}" method="get">
-      <input type="hidden" name="date" th:value="${date}" />
-      <input
-        type="text"
-        name="q"
-        th:value="${q}"
-        placeholder="Search exercises..."
-      />
-      <button type="submit">Search</button>
-    </form>
-
-    <div>
-      <span th:text="${exercises.number + 1}">1</span> /
-      <span th:text="${exercises.totalPages}">1</span>
-      <a
-        th:if="${exercises.hasPrevious()}"
-        th:href="@{|/workout?date=${date}&q=${q}&page=${exercises.number - 1}|}"
-        >Prev</a
-      >
-      <a
-        th:if="${exercises.hasNext()}"
-        th:href="@{|/workout?date=${date}&q=${q}&page=${exercises.number + 1}|}"
-        >Next</a
-      >
-    </div>
+        <table class="table" th:if="${workout != null and !#lists.isEmpty(workout.exercises)}">
+          <thead>
+            <tr>
+              <th>Exercise</th>
+              <th>Sets</th>
+              <th>Reps</th>
+              <th>Weight</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="it : ${workout.exercises}">
+              <td th:text="${it.exercise.name}">Exercise</td>
+              <td th:text="${it.sets}">0</td>
+              <td th:text="${it.reps}">0</td>
+              <td th:text="${it.weight}">0</td>
+              <td class="actions">
+                <form th:action="@{/workout/remove}" method="post" class="inline-form">
+                  <input type="hidden" name="workoutId" th:value="${workout.id}" />
+                  <input type="hidden" name="exerciseId" th:value="${it.exercise.id}" />
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <button class="btn btn--danger" type="submit">Remove</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
   </body>
 </html>
