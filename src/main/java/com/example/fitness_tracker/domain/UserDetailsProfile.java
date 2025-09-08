@@ -2,6 +2,7 @@ package com.example.fitness_tracker.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "user_details")
@@ -29,4 +30,5 @@ public class UserDetailsProfile {
     public void setHeight(Double height) { this.height = height; }
     public Double getWeight() { return weight; }
     public void setWeight(Double weight) { this.weight = weight; }
+
 }
